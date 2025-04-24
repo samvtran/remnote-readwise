@@ -26,5 +26,6 @@
       "type": "KnowledgeBaseInfo",
       "level": "Read"
     }
-  ]
+  ],
+  "unlisted": true
 }
