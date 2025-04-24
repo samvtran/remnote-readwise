@@ -5,9 +5,9 @@ export interface Highlight {
   location_type: string;
   note?: string;
   color: string;
-  highlighted_at: Date;
-  created_at: Date;
-  updated_at: Date;
+  highlighted_at: string;
+  created_at: string;
+  updated_at: string;
   external_id: string;
   end_location?: any;
   url?: string;

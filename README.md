@@ -1,4 +1,14 @@
-# Readwise Sync
+# Readwise Sync (fork)
+
+> [!NOTE]
+> This is a WIP fork of the official RemNote Readwise plugin.
+> 
+> The immediate goal is to integrate a few missing features from other integrations.
+
+## Fork Progress
+- [x] Daily note tagging
+- [ ] Readwise Reader linking
+- [ ] Option to open in Reader app directly
 
 ## Features
 

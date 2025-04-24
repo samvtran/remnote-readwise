@@ -17,6 +17,7 @@ export const bookSlots = {
 
 export const highlightSlots = {
   highlightId: 'readwise-highlight-id',
+  highlightedAt: 'readwise-highlighted-at',
   tags: 'readwise-tags',
   note: 'readwise-note-1',
 };

@@ -1,15 +1,15 @@
 {
-  "author": "Jamesb",
-  "name": "Readwise Sync",
+  "author": "samvtran",
+  "name": "Readwise Sync - Fork",
   "description": "Sync your Readwise highlights with RemNote",
   "enableOnMobile": true,
-  "id": "Jamesb-qb7y5il",
+  "id": "samvtran-readwise-sync",
   "manifestVersion": 1,
-  "repoUrl": "https://github.com/bjsi/remnote-readwise",
+  "repoUrl": "https://github.com/samvtran/remnote-readwise",
   "version": {
     "major": 0,
     "minor": 0,
-    "patch": 27
+    "patch": 1
   },
   "minimumRemNoteVersion": {
     "major": 1,
@@ -26,5 +26,6 @@
       "type": "KnowledgeBaseInfo",
       "level": "Read"
     }
-  ]
+  ],
+  "unlisted": true
 }

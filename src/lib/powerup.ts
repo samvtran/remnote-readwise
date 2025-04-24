@@ -54,6 +54,10 @@ async function registerHighlightPowerup(plugin: RNPlugin) {
           code: highlightSlots.note,
           name: 'Note',
         },
+        {
+          code: highlightSlots.highlightedAt,
+          name: 'Highlighted On',
+        }
       ],
     },
   });

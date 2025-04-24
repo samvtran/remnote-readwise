@@ -150,8 +150,7 @@ const findOrCreateHighlight = async (
   bookRem: Rem,
   allHighlightsById: Record<string, Rem>
 ): Promise<Either<string, Rem>> => {
-  let highlightRem: Rem | undefined = allHighlightsById[highlight.id.toString()];
-  highlightRem = highlightRem ? highlightRem : await plugin.rem.createRem();
+  const highlightRem = allHighlightsById[highlight.id.toString()] ?? await plugin.rem.createRem();
   if (!highlightRem) {
     return {
       success: false,
@@ -165,41 +164,47 @@ const findOrCreateHighlight = async (
       error: 'Could not find highlights parent for book: ' + bookRem.text?.[0],
     };
   }
-  highlightRem.setParent(parent!._id);
+  await highlightRem.setParent(parent!._id);
   if (
     highlight.text &&
     // don't overwrite if user edited
-    (await plugin.richText.empty(highlightRem.text || []))
+    (await plugin.richText.empty(highlightRem.text || []).catch(e => {
+      console.info('Error parsing existing highlight rem. Assume edited.', highlightRem.text, e);
+      return false;
+    }))
   ) {
-    highlightRem.setText(await convertToRichTextArray(plugin, highlight.text));
+    await highlightRem.setText(await convertToRichTextArray(plugin, highlight.text));
   }
   await highlightRem.addPowerup(powerups.highlight);
   if (highlight.id) {
-    highlightRem.setPowerupProperty(powerups.highlight, highlightSlots.highlightId, [
+    await highlightRem.setPowerupProperty(powerups.highlight, highlightSlots.highlightId, [
       highlight.id.toString(),
     ]);
   } else {
     return { success: false, error: `Highlight for book ${bookRem.text?.[0]} has no id` };
   }
   if (highlight.note) {
-    highlightRem.setPowerupProperty(powerups.highlight, highlightSlots.note, [highlight.note]);
+    await highlightRem.setPowerupProperty(powerups.highlight, highlightSlots.note, [highlight.note]);
   }
 
   if (highlight.tags && highlight.tags.length > 0) {
-    // highlightRem.setPowerupProperty(powerups.highlight, highlightSlots.tags, [
-    //   highlight.tags.map((x) => x.name).join(', '),
-    // ]);
-
     for (const tag of highlight.tags) {
       const tagRem = await findOrCreateTopLevelRem(plugin, tag.name);
       if (tagRem) {
-        highlightRem.addTag(tagRem);
+        await highlightRem.addTag(tagRem);
       }
     }
   }
   if (highlight.readwise_url) {
-    addLinkAsSource(plugin, highlightRem, highlight.readwise_url);
+    await addLinkAsSource(plugin, highlightRem, highlight.readwise_url);
   }
+
+  const dailyNote = await plugin.date.getDailyDoc(new Date(highlight.highlighted_at));
+  if (dailyNote) {
+    const richText = await plugin.richText.rem(dailyNote).value();
+    await highlightRem.setPowerupProperty(powerups.highlight, highlightSlots.highlightedAt, richText);
+  }
+
   return { success: true, data: highlightRem };
 };
 
