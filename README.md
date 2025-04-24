@@ -6,7 +6,7 @@
 > The immediate goal is to integrate a few missing features from other integrations.
 
 ## Fork Progress
-- [ ] Daily note tagging
+- [x] Daily note tagging
 - [ ] Readwise Reader linking
 - [ ] Option to open in Reader app directly
 
